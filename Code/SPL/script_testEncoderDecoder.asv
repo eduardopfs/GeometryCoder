@@ -1,0 +1,52 @@
+%Script script_testEncoderDecoder
+%  This script takes the file inputPly, encodes it using the Geometry
+%  Coder, and writes a bitstream to file binaryFile.
+%
+%  T
+%     - inputFile  - The complete path for the input binary file.
+%     - outputFile - The complete path for the output Ply
+%
+%  - Output Parameters
+%     - dec        - the Decoder Data structure.
+%
+% Ex: dec =
+% decodePointCloudGeometry(
+%    'C:\workspace\ricardo_frame0000.bin' ,
+%    'C:\workspace\dec_ricardo_frame0000.ply' );
+%   
+% Author: Eduardo Peixoto
+% E-mail: eduardopeixoto@ieee.org
+% 29/10/2019
+
+%Files Used:
+inputPly   = 'C:\eduardo\Sequences\PointClouds\ricardo9\ply\frame0000.ply';
+binaryFile = 'C:\eduardo\Dropbox\PointCloud_Geometry\workspace\ricardo_frame0000.bin';
+outputPly  = 'C:\eduardo\Dropbox\PointCloud_Geometry\workspace\dec_ricardo_frame0000.ply';
+
+%Runs the Encoder
+enc = encodePointCloudGeometry(inputPly,binaryFile);
+
+%Runs the Decoder
+dec = decodePointCloudGeometry(binaryFile,outputPly);
+
+%Checks the geometry cubes.
+checkCube = isequal(enc.geometryCube,dec.geometryCube);
+
+%Checks the two Ply
+checkPly  = comparePlys(inputPly, outputPly);
+
+disp(' ')
+disp('==============================================')
+if (checkCube == 1)
+    disp('The encoder and decoder geometry cubes are equal.')
+else
+    disp('The encoder and decoder geometry cubes are NOT equal.')
+end
+if (checkPly == 1)
+    disp('The encoder and decoder Ply Geometry are equal.')
+else
+    disp('The encoder and decoder Ply Geometry are NOT equal.')
+end
+disp('==============================================')%
+
+
