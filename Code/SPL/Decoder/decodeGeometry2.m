@@ -1,14 +1,14 @@
 % dec = decodeGeometry2(dec)
-%  
+%
 % This is the main decoder function. It opens the file, parses the
 % bitstream, decodes the parameters and then calls the decodeGeoCube()
-% function. Finally, it writes the output ply file. 
+% function. Finally, it writes the output ply file.
 %
 % Author: Eduardo Peixoto
 % E-mail: eduardopeixoto@ieee.org
 function dec = decodeGeometry2(dec)
 
-%Reads the bitstream from file. 
+%Reads the bitstream from file.
 bitstreamFile = [dec.params.workspaceFolder dec.params.bitstreamFile];
 bitstream = Bitstream(0);
 bitstream = bitstream.loadBitstream(bitstreamFile);
@@ -46,11 +46,12 @@ dec.geometryCube = zeros(limit+1,limit+1,limit+1,'logical');
 if (isempty(dec.params.outputPlyFile) == 0)
     locPoints = slices2Ptcld(dec.geometryCube, axis);
     pc        = pointCloud(locPoints);
-    
+
     %file      = [dec.params.workspaceFolder dec.params.outputPlyFile];
     file      = dec.params.outputPlyFile;
     disp(['Writing output Ply to ' file ' .'])
-    pcwrite(pc,file);
+    %pcwrite(pc,file);
+pc.export(file, 'PrecCoord', 0);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

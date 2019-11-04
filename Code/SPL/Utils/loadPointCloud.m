@@ -4,16 +4,26 @@ disp(['Loading file ' enc.params.pointCloudFile])
 filename = [enc.params.dataFolder enc.params.pointCloudFile];
 
 %Load the Point Cloud file.
-pointCloud = pcread(filename);
+%pointCloud = pcread(filename);
+pc = pointCloud(filename);
+
+ptCloud.Location = pc.X;
+ptCloud.Count = pc.noPoints;
+mm = min(pc.X);
+mx = max(pc.X);
+ptCloud.XLimits = [mm(1) mx(1)];
+ptCloud.YLimits = [mm(2) mx(2)];
+ptCloud.ZLimits = [mm(3) mx(3)];
 
 %Gets the limit (i.e., the bitdepth).
 %ptLocation = pointcloud.Location;
 boundlimits = [0 1 3 7 15 31 63 127 255 511 1023 2047 4095]; %define os limites possiveis
-bound = max([max(pointCloud.XLimits) max(pointCloud.YLimits) max(pointCloud.ZLimits)]); 
+bound = max([max(ptCloud.XLimits) max(ptCloud.YLimits) max(ptCloud.ZLimits)]);
 limit = boundlimits(bound<=boundlimits);
 limit = limit(1);
 
-enc.pointCloud             = pointCloud;
+%enc.pointCloud            = pointCloud;
+enc.pointCloud             = ptCloud;
 enc.pcLimit                = limit;
-enc.numberOfOccupiedVoxels = length(pointCloud.Location);
+enc.numberOfOccupiedVoxels = length(ptCloud.Location);
 enc.params.nBits           = log2(limit + 1);
