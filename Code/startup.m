@@ -43,6 +43,10 @@ src = [home bar version bar 'Utils'];
 disp(['Adding ' src ' to the Matlab Path'])
 addpath(src);
 
+src = genpath([home bar version bar 'PlyTools']);
+disp(['Adding ' home bar version bar 'PlyTools to the Matlab Path'])
+addpath(src);
+
 clear home;
 clear src;
 
