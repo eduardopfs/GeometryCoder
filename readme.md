@@ -28,7 +28,7 @@ Afterwards, there are 2 functions and 3 scripts that can be used:
 
 # Contact Person
 
-[Eduardo Peixoto](eduardopeixoto@ieee.org)
+[Eduardo Peixoto](mailto:eduardopeixoto@ieee.org)
 
 # Credits
 
