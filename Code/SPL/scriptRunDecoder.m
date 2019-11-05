@@ -1,4 +1,4 @@
-%Script scriptRunDecoder
+dialog%Script scriptRunDecoder
 %
 %  This script decodes all files in the dataset.
 %  All binary files are provided.

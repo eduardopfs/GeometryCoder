@@ -1,4 +1,4 @@
-%function cabac_out = encodeGeoCube(geoCube,cabac_in, iStart,iEnd, Y)
+%function cabac_out = encodeGeoCube(enc,cabac_in, iStart,iEnd, Y)
 %
 % This is the main algorithm.
 %  This testes both the dyadic decomposition and, if the number of images
@@ -7,7 +7,7 @@
 %
 % Author: Eduardo Peixoto
 % E-mail: eduardopeixoto@ieee.org
-function cabac_out = encodeGeoCube(geoCube,cabac_in, iStart,iEnd, Y)
+function cabac_out = encodeGeoCube(geoCube, enc,cabac_in, currAxis, iStart,iEnd, Y)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %These are the parameters.
@@ -20,9 +20,15 @@ nBitsSingle             = Inf;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %The first time this function is called I have to encode the first OR image
 %that encompasses the whole geocube.
-if (nargin == 4)
+if (nargin == 6)
     %1 - Gets the main image.
-    Y = silhouette(geoCube,iStart,iEnd);
+    %Y = silhouette(geoCube,iStart,iEnd);
+    Y = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, iStart, iEnd);
+    
+    %if(not(isequal(Y, YY)))
+    %    display('Y silhouttes not equal...');
+    %    display([iStart iEnd]);
+    %end
     
     %nBitsY   = 0;
     %Encodes the image Y.
@@ -54,8 +60,21 @@ if (testDyadicDecomposition)
     rEnd   = iEnd;
     %NRight = rEnd - rStart + 1;
     
-    Yleft  = silhouette(geoCube,lStart,lEnd);
-    Yright = silhouette(geoCube,rStart,rEnd);
+    %Yleft  = silhouette(geoCube,lStart,lEnd);
+    %Yright = silhouette(geoCube,rStart,rEnd);
+    
+    Yleft  = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, lStart, lEnd);
+    Yright = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, rStart, rEnd);
+    
+    %if(not(isequal(Yleft, YYleft)))
+    %    display('Yleft silhouttes not equal...');
+    %    display([lStart lEnd]);
+    %end
+    %if(not(isequal(Yright, YYright)))
+    %    display('Yright silhouttes not equal...');
+    %    display([rStart rEnd]);
+    %end
+    
     
     %Encode the left using Y as mask.
     %left image represents the interval [lStart,lEnd]
@@ -98,7 +117,8 @@ if (testDyadicDecomposition)
             if (lStart == 1)
                 cabacDyadic = encodeImageBAC_withMask2(Yleft,mask_Yleft,cabacDyadic);
             else
-                Yleft_left = silhouette(geoCube,lStart - NLeft, lEnd - NLeft);
+                %Yleft_left = silhouette(geoCube,lStart - NLeft, lEnd - NLeft);
+                Yleft_left  = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, lStart - NLeft, lEnd - NLeft);
                 cabacDyadic = encodeImageBAC_withMask_3DContexts_ORImages2(Yleft,mask_Yleft,Yleft_left,cabacDyadic);
             end
                         
@@ -138,7 +158,7 @@ if (testDyadicDecomposition)
         nBits      = cabacDyadic.BACEngine.bitstream.size();
         nBitsParam = cabacDyadic.ParamBitstream.size();
         
-        cabacDyadic = encodeGeoCube(geoCube,cabacDyadic, lStart,lEnd, Yleft);    
+        cabacDyadic = encodeGeoCube(geoCube, enc,cabacDyadic, currAxis, lStart,lEnd, Yleft);    
         
         nBitsLeftBranch      = cabacDyadic.BACEngine.bitstream.size() - nBits;
         nBitsLeftBranchParam = cabacDyadic.ParamBitstream.size() - nBitsParam;
@@ -154,7 +174,7 @@ if (testDyadicDecomposition)
         nBits      = cabacDyadic.BACEngine.bitstream.size();
         nBitsParam = cabacDyadic.ParamBitstream.size();
                 
-        cabacDyadic = encodeGeoCube(geoCube,cabacDyadic, rStart,rEnd, Yright);  
+        cabacDyadic = encodeGeoCube(geoCube, enc,cabacDyadic, currAxis, rStart,rEnd, Yright);  
         
         nBitsRightBranch      = cabacDyadic.BACEngine.bitstream.size() - nBits;
         nBitsRightBranchParam = cabacDyadic.ParamBitstream.size() - nBitsParam;
@@ -176,7 +196,9 @@ if ((testEncodeAsSingles == 1) && ((iEnd - iStart) <= 16))
     %used.
     cabacSingle = encodeParam(logical(1),cabacSingle);
     
-    cabacSingle = encodeSliceAsSingles(geoCube,cabacSingle,iStart,iEnd,Y);
+    % TODO!
+    % Remove geoCube from the next line!
+    cabacSingle = encodeSliceAsSingles(geoCube, enc, currAxis, cabacSingle,iStart,iEnd,Y);
     
     
     nBitsSingleAC    = cabacSingle.BACEngine.bitstream.size() - nBitsSingleAC;

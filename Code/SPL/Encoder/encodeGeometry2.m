@@ -30,7 +30,9 @@ for (k = 1:1:3)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %Splices the geoCube
     currAxis = axisArray(k);
-    geoCube = ptcld2Slices(enc.pointCloud.Location,currAxis,enc.pcLimit);
+    display(['Encoding ' currAxis ' axis...'])
+    %geoCube = ptcld2Slices(enc.pointCloud.Location,currAxis,enc.pcLimit);
+    geoCube = [];
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -43,9 +45,9 @@ for (k = 1:1:3)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %Encodes the Geometry Cube.
     iStart = 1;
-    iEnd   = size(geoCube,3);
+    iEnd   = enc.pcLimit + 1;%size(geoCube,3);
         
-    cabac = encodeGeoCube(geoCube, cabac, iStart, iEnd);
+    cabac = encodeGeoCube(geoCube, enc, cabac, currAxis, iStart, iEnd);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     
@@ -73,7 +75,7 @@ for (k = 1:1:3)
     if (totalRate < bestRate)
         bestAxis      = currAxis;
         bestRate      = totalRate;
-        bestGeoCube   = geoCube;
+        bestGeoCube   = [];
         bestBitstream = bitstream;
     end
     

@@ -5,7 +5,7 @@
 %
 % Author: Eduardo Peixoto
 % E-mail: eduardopeixoto@ieee.org
-function cabac = encodeSliceAsSingles(geoCube,cabac,iStart,iEnd,Y)
+function cabac = encodeSliceAsSingles(geoCube, enc, currAxis, cabac,iStart,iEnd,Y)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Uses the parent as mask.
@@ -19,7 +19,15 @@ maskLast = zeros(sy,sx,'logical');
 %Iterates through all the slices
 for (i = iStart:1:(iEnd-1))
     %Gets the current slice to be encoded.
-    A = geoCube(:,:,i);
+    %A = geoCube(:,:,i);
+    A = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, i, i);
+    
+    %if(not(isequal(A,AA)))
+    %    display('Slices are not equal...')
+    %    display(['Axis: ' currAxis]);
+    %    display(['Slice index: ' i]);
+    %end
+    
     nSymbolsA = sum(A(:));
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,7 +49,8 @@ for (i = iStart:1:(iEnd-1))
         if (i == 1)
             Yleft = zeros(sy,sx,'logical');
         else
-            Yleft = geoCube(:,:,i-1);
+            %Yleft = geoCube(:,:,i-1);
+            Yleft = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, i-1, i-1);
         end
         
         %Actually encodes the image.
@@ -57,7 +66,8 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Encodes the last image.
-A = geoCube(:,:,iEnd);
+%A = geoCube(:,:,iEnd);
+A = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, iEnd, iEnd);
 nSymbolsA = sum(A(:));
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,7 +90,8 @@ if (nSymbolsA ~= 0)
     if (iEnd == 1)
         Yleft = zeros(sy,sx,'logical');
     else
-        Yleft = geoCube(:,:,iEnd-1);
+        %Yleft = geoCube(:,:,iEnd-1);
+        Yleft = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, iEnd-1, iEnd-1);
     end
     
     %Actually encodes the image.

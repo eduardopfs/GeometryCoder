@@ -21,9 +21,9 @@
 
 %Files Used:
 %Change this to reflect your system
-inputPly   = 'C:\eduardo\Sequences\PointClouds\ricardo9\ply\frame0000.ply';
-binaryFile = 'C:\eduardo\Dropbox\PointCloud_Geometry\workspace\ricardo_frame0000.bin';
-outputPly  = 'C:\eduardo\Dropbox\PointCloud_Geometry\workspace\dec_ricardo_frame0000.ply';
+inputPly   = '/Users/edil/2-development/point_cloud/ricardo9/ply/frame0000.ply';
+binaryFile = '../ricardo_frame0000.bin';
+outputPly  = '../dec_ricardo_frame0000.ply';
 
 %Runs the Encoder
 enc = encodePointCloudGeometry(inputPly,binaryFile);
