@@ -21,4 +21,6 @@ inImage(:,axisInd) = [];
 image(sub2ind(size(image), ...
               inImage(:,1), ...
               inImage(:,2))) = 1;
+
+image = sparse(image == 1);          
 end
