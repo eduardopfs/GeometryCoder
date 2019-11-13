@@ -23,14 +23,14 @@ if (sum(enc.params.testMode) == 0)
 end
 
 %Iterate to find the best axis
-for (k = 1:1:3)
+for k = 1:1:3
 
     tStart_Axis = tic;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %Splices the geoCube
     currAxis = axisArray(k);
-    display(['Encoding ' currAxis ' axis...'])
+    disp(['Encoding ' currAxis ' axis...'])
     %geoCube = ptcld2Slices(enc.pointCloud.Location,currAxis,enc.pcLimit);
     geoCube = [];
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

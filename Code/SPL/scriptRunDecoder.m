@@ -1,4 +1,4 @@
-dialog%Script scriptRunDecoder
+%Script scriptRunDecoder
 %
 %  This script decodes all files in the dataset.
 %  All binary files are provided.
@@ -26,7 +26,7 @@ k = k + 1;
 %David
 sequence{k}        = 'david';
 name{k}            = 'frame';
-workspaceFolder{k} = [encodedDatasetFolder 'david9\]';
+workspaceFolder{k} = [encodedDatasetFolder 'david9\'];
 frameStart{k}      = 0;
 frameEnd{k}        = 215;
 
@@ -87,8 +87,8 @@ frameStart{k}      = 0536;
 frameEnd{k}        = 0835;
 
 N = k;
-for (k = 1:1:N)
-    for (i = frameStart{k}:1:frameEnd{k})
+for k = 1:1:N
+    for i = frameStart{k}:1:frameEnd{k}
         strNum = num2str(i);
         leadingZeros = char(zeros(1,4 - length(strNum)) + 48);
         filename = [name{k} '' leadingZeros '' strNum ''];

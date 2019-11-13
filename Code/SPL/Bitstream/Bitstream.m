@@ -66,7 +66,7 @@ classdef Bitstream
             %Grows the bitstream if needed.
             if (obj.p + 1 > obj.lengthAllocated)
                 obj.lengthAllocated = obj.lengthAllocated * 2;
-                obj.data(1,obj.lengthAllocated) = logical(0);
+                obj.data(1,obj.lengthAllocated) = false;
             end
             
             %Insert the bit.
@@ -114,7 +114,7 @@ classdef Bitstream
             
             w = [128 64 32 16 8 4 2 1];
             
-            for (k = 1:1:(N-1))
+            for k = 1:1:(N-1)
                 if (k*8 <= obj.lengthAllocated)
                     t = obj.data((k-1)*8 + 1: k*8);
                 else
@@ -163,7 +163,7 @@ classdef Bitstream
             obj.lengthBitstream = lData - leftOverBits;
             obj.lengthAllocated = lData;
             
-            for (k = 1:1:(nBytes - 1))
+            for k = 1:1:(nBytes - 1)
                 currByte = byteVector(k + 1);
                 
                 %Performs the dec2bin conversion
@@ -198,7 +198,7 @@ classdef Bitstream
             
             %Grow my bitstream if needed.
             if (N > obj.lengthAllocated)                
-                obj.data(1,N) = logical(0);
+                obj.data(1,N) = false;
                 obj.lengthAllocated = N;
             end
             

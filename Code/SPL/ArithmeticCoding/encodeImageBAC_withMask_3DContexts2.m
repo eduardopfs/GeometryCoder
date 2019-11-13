@@ -13,7 +13,7 @@ padA      = padarray(A,[3 3]);
 
 maxValueContext = cabac.BACParams.maxValueContext;
 
-currBACContext = getBACContext(logical(0),maxValueContext/2,maxValueContext);
+currBACContext = getBACContext(false,maxValueContext/2,maxValueContext);
 
 numberOfContexts = cabac.BACParams.numberOfContextsMasked;
 
@@ -21,7 +21,7 @@ numberOfContexts = cabac.BACParams.numberOfContextsMasked;
 %sizeA   = size(A);
 
 %[idx_i, idx_j] = find(mask');
-for (k = 1:1:length(idx_i))
+for k = 1:1:length(idx_i)
     y = idx_j(k);
     x = idx_i(k);        %It only encodes it IF the mask says so.
     
@@ -38,10 +38,10 @@ for (k = 1:1:length(idx_i))
     p1s = currCount(2) / (sum(currCount));
     
     if (p1s > 0.5)
-        currBACContext.MPS = logical(1);
+        currBACContext.MPS = true;
         currBACContext.countMPS = floor(p1s * maxValueContext);
     else
-        currBACContext.MPS = logical(0);
+        currBACContext.MPS = false;
         currBACContext.countMPS = floor((1 - p1s) * maxValueContext);
     end
     
@@ -49,7 +49,7 @@ for (k = 1:1:length(idx_i))
     cabac.BACEngine = encodeOneSymbolBAC(cabac.BACEngine,currBACContext,currSymbol);
     
     %Updates the context.
-    if (currSymbol == logical(0))
+    if (currSymbol == false)
         cabac.BACContexts_3D(contextNumberLeft, contextNumber2D + 1, 1) = cabac.BACContexts_3D(contextNumberLeft, contextNumber2D + 1, 1) + 1;
     else
         cabac.BACContexts_3D(contextNumberLeft, contextNumber2D + 1, 2) = cabac.BACContexts_3D(contextNumberLeft, contextNumber2D + 1, 2) + 1;

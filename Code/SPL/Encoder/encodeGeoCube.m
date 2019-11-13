@@ -90,7 +90,7 @@ if (testDyadicDecomposition)
     %At this moment I know which images I need to encode.    
     %Add a flag to the bitstream indicating that a Dyadic decomposition
     %will be used.
-    cabacDyadic = encodeParam(logical(0),cabacDyadic);
+    cabacDyadic = encodeParam(false,cabacDyadic);
     nBitsDyadic = nBitsDyadic + 1;
     
     %Add a flag to the bitstream indicating if I am encoding image left.
@@ -194,7 +194,7 @@ if ((testEncodeAsSingles == 1) && ((iEnd - iStart) <= 16))
     
     %Add a flag to the bitstream indicating that the single method will be
     %used.
-    cabacSingle = encodeParam(logical(1),cabacSingle);
+    cabacSingle = encodeParam(true,cabacSingle);
     
     % TODO!
     % Remove geoCube from the next line!

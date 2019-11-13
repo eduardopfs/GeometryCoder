@@ -26,7 +26,7 @@ disp('Universidade de Brasilia')
 if (isempty(inputFile))
     error('Empty input File.');
 else
-    if (strcmp(class(inputFile),'char') == 0)
+    if (~ischar(inputFile))
         error('The input file must be a string');
     end
 end
@@ -34,7 +34,7 @@ end
 if (isempty(outputFile))
     error('Empty output File.');
 else
-    if (strcmp(class(outputFile),'char') == 0)
+    if (~ischar(outputFile))
         error('The output file must be a string');
     end
 end

@@ -6,17 +6,17 @@ vSize           = zeros(1,6,'logical');
 vAxis           = zeros(1,2,'logical');
 vBitstreamParam = zeros(1,16,'logical');
 
-for (k = 1:1:6)
+for k = 1:1:6
     [bitstream, bit] = bitstream.read1Bit();
     vSize(k) = bit;
 end
 
-for (k = 1:1:2)
+for k = 1:1:2
     [bitstream, bit] = bitstream.read1Bit();
     vAxis(k) = bit;
 end
 
-for (k = 1:1:16)
+for k = 1:1:16
     [bitstream, bit] = bitstream.read1Bit();
     vBitstreamParam(k) = bit;
 end

@@ -30,13 +30,13 @@ pc2.YLimits = [mm(2) mx(2)];
 pc2.ZLimits = [mm(3) mx(3)];
 
 
-[N1 d1] = size(pc1.Location);
-[N2 d2] = size(pc2.Location);
+[N1, ~] = size(pc1.Location);
+[N2, ~] = size(pc2.Location);
 
 if (N1 ~= N2)
     eq = 0;
 else
-    for (i = 1:1:N1)
+    for i = 1:1:N1
         currXYZ = pc1.Location(i,:);
 
         temp3 = (pc2.Location == currXYZ);

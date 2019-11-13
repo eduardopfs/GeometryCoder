@@ -9,7 +9,7 @@ function [geoCube,cabac] = decodeSliceAsSingles(geoCube,cabac, iStart,iEnd, Y)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Uses the parent as mask.
 %mask = Y;
-[sy sx]  = size(Y);
+[sy, sx]  = size(Y);
 maskLast = zeros(sy,sx,'logical');
 
 [idx_i, idx_j] = find(Y');
@@ -17,7 +17,7 @@ maskLast = zeros(sy,sx,'logical');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Iterates through all the slices
-for (i = iStart:1:(iEnd-1))
+for i = iStart:1:(iEnd-1)
     %Reads if this slice was encoded.
     [cabac.ParamBitstream, bit] = cabac.ParamBitstream.read1Bit();
    

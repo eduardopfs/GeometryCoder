@@ -36,7 +36,7 @@ for k=1:size(geoCube,3)
             error('The axis should be x, y or z.');
         end
         
-        for (j = 1:1:size(currPoints,1))
+        for j = 1:1:size(currPoints,1)
             ptcld(i,:) = currPoints(j,:);
             i = i + 1;
         end

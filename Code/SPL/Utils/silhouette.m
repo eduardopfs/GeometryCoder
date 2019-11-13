@@ -10,6 +10,6 @@ function A = silhouette(geoCube,iStart,iEnd)
 
 A = geoCube(:,:,iStart);
 
-for (i = (iStart + 1):1:iEnd)
+for i = (iStart + 1):1:iEnd
     A = or(A,geoCube(:,:,i));
 end

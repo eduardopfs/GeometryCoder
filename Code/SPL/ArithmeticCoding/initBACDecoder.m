@@ -6,7 +6,7 @@ function dec = initBACDecoder(dec)
 tagVector = zeros(1,dec.m,'logical');
 w         = zeros(1,dec.m);
 
-for (k = 1:1:dec.m)
+for k = 1:1:dec.m
     [dec.bitstream, currBit] = dec.bitstream.read1Bit();
     tagVector(k)             = currBit;
     w(k)                     = 2^(dec.m - k);

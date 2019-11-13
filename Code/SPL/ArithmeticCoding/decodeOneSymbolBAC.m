@@ -3,12 +3,12 @@
 function [dec, symbol] = decodeOneSymbolBAC(dec, c)
 
 %Gets the MPS and LPS
-if (c.MPS == logical(0))
-    mps = logical(0);
-    lps = logical(1);
+if (c.MPS == false)
+    mps = false;
+    lps = true;
 else
-    mps = logical(1);
-    lps = logical(0);
+    mps = true;
+    lps = false;
 end
 
 %Gets the interval

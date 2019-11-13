@@ -10,11 +10,11 @@ BACEngineDecoder           = initBACDecoder(BACEngineDecoder);
 
 countContexts   = initCountContexts_1D(numberOfContexts);
 maxValueContext = params.BACParams.maxValueContext;
-currBACContext  = getBACContext(logical(0),maxValueContext/2,maxValueContext);
+currBACContext  = getBACContext(false,maxValueContext/2,maxValueContext);
 
 msg = zeros(1,nSymbols,'logical');
 
-for (k = 1:1:nSymbols)    
+for k = 1:1:nSymbols  
     contextNumber = get1DContext(msg, k, numberOfContexts);
     
     %Gets the current count for this context.
@@ -24,10 +24,10 @@ for (k = 1:1:nSymbols)
     p1s = currCount(2) / (sum(currCount));
     
     if (p1s > 0.5)
-        currBACContext.MPS = logical(1);
+        currBACContext.MPS = true;
         currBACContext.countMPS = floor(p1s * maxValueContext);
     else
-        currBACContext.MPS = logical(0);
+        currBACContext.MPS = false;
         currBACContext.countMPS = floor((1 - p1s) * maxValueContext);
     end
     
@@ -38,7 +38,7 @@ for (k = 1:1:nSymbols)
     msg(k) = currSymbol;
     
     %Updates the context.
-    if (currSymbol == logical(0))
+    if (currSymbol == false)
         countContexts(contextNumber + 1,1) = countContexts(contextNumber + 1,1) + 1;
     else
         countContexts(contextNumber + 1,2) = countContexts(contextNumber + 1,2) + 1;

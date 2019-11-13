@@ -5,11 +5,11 @@
 %
 % Author: Eduardo Peixoto
 % E-mail: eduardopeixoto@ieee.org
-function cabac = encodeSliceAsSingles(geoCube, enc, currAxis, cabac,iStart,iEnd,Y)
+function cabac = encodeSliceAsSingles(~, enc, currAxis, cabac,iStart,iEnd,Y)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Uses the parent as mask.
-[sy sx]  = size(Y);
+[sy, sx]  = size(Y);
 maskLast = zeros(sy,sx,'logical');
 
 [idx_i, idx_j] = find(Y');
@@ -17,7 +17,7 @@ maskLast = zeros(sy,sx,'logical');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Iterates through all the slices
-for (i = iStart:1:(iEnd-1))
+for i = iStart:1:(iEnd-1)
     %Gets the current slice to be encoded.
     %A = geoCube(:,:,i);
     A = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, i, i);
@@ -33,9 +33,9 @@ for (i = iStart:1:(iEnd-1))
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %First, I have to signal if this slice will be encoded.
     if (nSymbolsA == 0)
-        cabac = encodeParam(logical(0),cabac);
+        cabac = encodeParam(false,cabac);
     else
-        cabac = encodeParam(logical(1),cabac);
+        cabac = encodeParam(true,cabac);
     end
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,9 +73,9 @@ nSymbolsA = sum(A(:));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %First, I have to signal if this slice will be encoded.
 if (nSymbolsA == 0)
-    cabac = encodeParam(logical(0),cabac);
+    cabac = encodeParam(false,cabac);
 else
-    cabac = encodeParam(logical(1),cabac);
+    cabac = encodeParam(true,cabac);
 end
 
 %nBits = cabac.BACEngine.bitstream.size();
