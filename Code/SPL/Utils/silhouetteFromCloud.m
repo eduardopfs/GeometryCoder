@@ -9,18 +9,20 @@ function image = silhouetteFromCloud(pointList, imSize, axis, iStart, iEnd)
 % Get axis to project points.
 axisInd = find('xyz' == axis);
 
-% Preallocate image
-image = zeros(imSize);
-
 % Which rows in the points list have something interesting?
 rows = ((pointList(:,axisInd)+1 >= iStart) & (pointList(:,axisInd)+1 <= iEnd));
 inImage = pointList(rows,:)+1;
 inImage(:,axisInd) = [];
+inImage = unique(inImage, 'rows');
+
+% Preallocate image
+%image = zeros(imSize);
+image = spalloc(imSize, imSize, length(inImage));
 
 % Flag image where there is a point projection.
 image(sub2ind(size(image), ...
               inImage(:,1), ...
               inImage(:,2))) = 1;
 
-image = sparse(image == 1);          
+%image = sparse(image == 1);          
 end
