@@ -12,7 +12,7 @@ function cabac_out = encodeGeoCube(geoCube, enc,cabac_in, currAxis, iStart,iEnd,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %These are the parameters.
 testDyadicDecomposition = 1;
-testEncodeAsSingles     = 1;
+testEncodeAsSingles     = 0;
 nBitsDyadic             = Inf;
 nBitsSingle             = Inf;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

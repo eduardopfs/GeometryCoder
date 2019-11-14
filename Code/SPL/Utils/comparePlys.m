@@ -10,21 +10,24 @@ eq = 1;
 %pc1 = pcread(file1);
 %pc2 = pcread(file2);
 
-pp1 = pointCloud(file1);
-pp2 = pointCloud(file2);
+%pp1 = pointCloud(file1);
+%pp2 = pointCloud(file2);
 
-pc1.Location = pp1.X;
-pc1.Count = pp1.noPoints;
-mm = min(pp1.X);
-mx = max(pp1.X);
+[vertex1, ~] = plyRead(file1, 0);
+[vertex2, ~] = plyRead(file2, 0);
+
+pc1.Location = vertex1;
+pc1.Count = length(vertex1);
+mm = min(vertex1);
+mx = max(vertex1);
 pc1.XLimits = [mm(1) mx(1)];
 pc1.YLimits = [mm(2) mx(2)];
 pc1.ZLimits = [mm(3) mx(3)];
 
-pc2.Location = pp2.X;
-pc2.Count = pp2.noPoints;
-mm = min(pp2.X);
-mx = max(pp2.X);
+pc2.Location = vertex2;
+pc2.Count = length(vertex2);
+mm = min(vertex2);
+mx = max(vertex2);
 pc2.XLimits = [mm(1) mx(1)];
 pc2.YLimits = [mm(2) mx(2)];
 pc2.ZLimits = [mm(3) mx(3)];

@@ -45,13 +45,15 @@ dec.geometryCube = zeros(limit+1,limit+1,limit+1,'logical');
 %Decodes the location.
 if (isempty(dec.params.outputPlyFile) == 0)
     locPoints = slices2Ptcld(dec.geometryCube, axis);
-    pc        = pointCloud(locPoints);
+    %pc        = pointCloud(locPoints);
+    %[vertex, ~] = plyRead(filename, 0);
 
     %file      = [dec.params.workspaceFolder dec.params.outputPlyFile];
     file      = dec.params.outputPlyFile;
     disp(['Writing output Ply to ' file ' .'])
     %pcwrite(pc,file);
-pc.export(file, 'PrecCoord', 0);
+    %pc.export(file, 'PrecCoord', 0);
+    plyWrite(locPoints, file);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
