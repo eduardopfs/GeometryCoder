@@ -5,7 +5,7 @@
 %
 % Author: Eduardo Peixoto
 % E-mail: eduardopeixoto@ieee.org
-function image = silhouetteFromCloud(pointList, imSize, axis, iStart, iEnd)
+function image = silhouetteFromCloud(pointList, imSize, axis, iStart, iEnd, sparseM)
 % Get axis to project points.
 axisInd = find('xyz' == axis);
 
@@ -16,8 +16,11 @@ inImage(:,axisInd) = [];
 inImage = unique(inImage, 'rows');
 
 % Preallocate image
-%image = zeros(imSize);
-image = spalloc(imSize, imSize, length(inImage));
+if sparseM
+    image = spalloc(imSize, imSize, length(inImage));
+else
+    image = zeros(imSize);
+end
 
 % Flag image where there is a point projection.
 image(sub2ind(size(image), ...

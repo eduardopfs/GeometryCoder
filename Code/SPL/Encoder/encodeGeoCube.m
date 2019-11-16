@@ -12,9 +12,10 @@ function cabac_out = encodeGeoCube(geoCube, enc,cabac_in, currAxis, iStart,iEnd,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %These are the parameters.
 testDyadicDecomposition = 1;
-testEncodeAsSingles     = 0;
+testEncodeAsSingles     = 1;
 nBitsDyadic             = Inf;
 nBitsSingle             = Inf;
+sparseM                 = false; % Use sparse matrices for images.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -23,7 +24,7 @@ nBitsSingle             = Inf;
 if (nargin == 6)
     %1 - Gets the main image.
     %Y = silhouette(geoCube,iStart,iEnd);
-    Y = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, iStart, iEnd);
+    Y = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, iStart, iEnd, sparseM);
     
     %if(not(isequal(Y, YY)))
     %    display('Y silhouttes not equal...');
@@ -63,8 +64,8 @@ if (testDyadicDecomposition)
     %Yleft  = silhouette(geoCube,lStart,lEnd);
     %Yright = silhouette(geoCube,rStart,rEnd);
     
-    Yleft  = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, lStart, lEnd);
-    Yright = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, rStart, rEnd);
+    Yleft  = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, lStart, lEnd, sparseM);
+    Yright = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, rStart, rEnd, sparseM);
     
     %if(not(isequal(Yleft, YYleft)))
     %    display('Yleft silhouttes not equal...');
@@ -118,7 +119,7 @@ if (testDyadicDecomposition)
                 cabacDyadic = encodeImageBAC_withMask2(Yleft,mask_Yleft,cabacDyadic);
             else
                 %Yleft_left = silhouette(geoCube,lStart - NLeft, lEnd - NLeft);
-                Yleft_left  = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, lStart - NLeft, lEnd - NLeft);
+                Yleft_left  = silhouetteFromCloud(enc.pointCloud.Location, enc.pcLimit+1, currAxis, lStart - NLeft, lEnd - NLeft, sparseM);
                 cabacDyadic = encodeImageBAC_withMask_3DContexts_ORImages2(Yleft,mask_Yleft,Yleft_left,cabacDyadic);
             end
                         
@@ -198,7 +199,7 @@ if ((testEncodeAsSingles == 1) && ((iEnd - iStart) <= 16))
     
     % TODO!
     % Remove geoCube from the next line!
-    cabacSingle = encodeSliceAsSingles(geoCube, enc, currAxis, cabacSingle,iStart,iEnd,Y);
+    cabacSingle = encodeSliceAsSingles(geoCube, enc, currAxis, cabacSingle,iStart,iEnd,Y, sparseM);
     
     
     nBitsSingleAC    = cabacSingle.BACEngine.bitstream.size() - nBitsSingleAC;
