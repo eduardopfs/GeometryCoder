@@ -19,7 +19,7 @@ inImage = unique(inImage, 'rows');
 if sparseM
     image = spalloc(imSize, imSize, length(inImage));
 else
-    image = zeros(imSize);
+    image = zeros(imSize,'logical');
 end
 
 % Flag image where there is a point projection.
